@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Homepage</title>
+    <style>
+    .atags{
+      margin-top: -100px;
+      margin-left: 850px;
+      /*display:inline-block;*/
+    }
+    </style>
+  </head>
+  <body>
+    <h1>Welcome {{request.session.first_name}}</h1>
+    <h3>Here are your events for today, {{today}}:</h3>
+      <table>
+        <thead>
+          <th padding: 8px;>Tasks</th>
+          <th padding: 8px;>Time</th>
+          <th padding: 8px;>Status</th>
+          <th padding: 8px;>Action</th>
+          <th padding: 8px;></th>
+        </thead>
+        <tbody>
+          {% for t in today_appts %}
+          <tr>
+            <td padding: 8px;> {t.task}</td>
+            <td padding: 8px;> {t.time}</td>
+            <td padding: 8px;> {t.status}</td>
+            <td padding: 8px;><a href="/edit_appointment/{{t.id}}">Edit</a></td>
+            <td padding: 8px;><a href="/delete_appointment/{{t.id}}">Delete</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <h3>Here are the rest of your scheduled appointments:</h3>
+      <table>
+        <thead>
+          <th padding: 8px;>Tasks</th>
+          <th padding: 8px;>Date</th>
+          <th padding: 8px;>Time</th>
+          <th padding: 8px;>Action</th>
+          <th padding: 8px;></th>
+        </thead>
+        <tbody>
+          {% for f in future_appts %}
+          <tr>
+            <td padding: 8px;> {f.task}</td>
+            <td padding: 8px;> {f.date}</td>
+            <td padding: 8px;> {f.time}</td>
+            <td padding: 8px;> <a href="/edit_appointment/{{f.id}}">Edit</a></td>
+            <td padding: 8px;> <a href="/delete_appointment/{{f.id}}">Delete</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <h3>Add an Appointment:</h3>
+        <form  action="{% url 'daily_planner:add_appointment' %}" method="post">
+              {% csrf_token %}
+          Date:<br>
+          <input type="date" name="date"><br><br>
+          Time:<br>
+          <input type="datetime" name="time"><br><br>
+          Task:<br>
+          <input type="text" name="task"><br><br>
+          <input type="submit" value="Plan it!">
+        </form>
+        {% for message in messages %}
+        <h4><i>{{message}}</i></h4>
+        {% endfor %}
+    </body>
+    <div class="atags">
+      <a href="{% url 'daily_planner:logout'%}">Logout</a>
+    </div>
+</html>

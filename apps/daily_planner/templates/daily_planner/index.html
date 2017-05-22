@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <style>
+    .alert {
+      font-size: 18px;
+      color: red;
+    }
+    .login{
+      margin-left: 50px;
+      height:400px;
+      width: 300px;
+      border-style: groove;
+      border-width: thick;
+      border-color: black;
+      display: inline-block;
+      vertical-align: top;
+    }
+    .register{
+      margin-left: 50px;
+      height:675px;
+      width: 350px;
+      border-style: groove;
+      border-width: thick;
+      border-color: black;
+      display: inline-block;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="login">
+      <center>
+    <h1>Login:</h1>
+    <form action="{% url 'daily_planner:login' %}" method="POST">
+      {% csrf_token %}
+      Email:<br>
+      <input type="text" name="email" ><br>
+      Password:<br>
+      <input type="password" name="password"><br><br>
+      <input type= "submit" name="Submit" value= "Login"><br><br>
+    </form>
+    {% if login_messages %}
+      {% for m in messages %}
+        <div class="alert alert-warning alert-dismissible" role="alert">
+          <h2>{{m}}</h2>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </center>
+  </div>
+    <div class = "register">
+      <center>
+      <h1>Register</h1>
+      <h3>Fill out the following form:</h3>
+      <form  action="{% url 'daily_planner:register' %}" method="POST">
+        {% csrf_token %}
+        First Name:<br>
+        <input type="text" name="first_name"><br>
+        aka:<br>
+        <input type="text" name="aka"><br>
+        Last Name:<br>
+        <input type="text" name="last_name"><br>
+        Email:<br>
+        <input type="text" name="email"><br>
+        Password:<br>
+        <input type="password" name="password"><br>
+        Confirm Password:<br>
+        <input type="password" name="confirm_password"><br>
+        Birthdate:<br>
+        <input type="date" name="birthdate" ><br><br>
+        <input type="submit" name="Submit">
+      </form>
+      {% if registration_messages %}
+        {% for m in messages %}
+          <div class="alert alert-warning alert-dismissible" role="alert">
+            <h3>{{m}}</h3>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </center>
+    </div>
+  </body>
+</html>
